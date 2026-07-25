@@ -5,7 +5,7 @@ go 1.26.0
 // Go+ toolchain (released; carries the convergence + GADT-guard codegen fixes).
 tool goforge.dev/goplus/cmd/goplus
 
-require goforge.dev/goplus v0.138.0 // indirect
+require goforge.dev/goplus v0.139.0 // indirect
 
 require (
 	charm.land/bubbles/v2 v2.1.0
@@ -141,5 +141,3 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace goforge.dev/goplus => ../goplus
