@@ -104,11 +104,11 @@ func TestSearch(t *testing.T) {
 			expectedEntrypoint: filepath.Join(wd, "testdata", "foo.txt"),
 		},
 		{
-			name:               "find fs.go using no entrypoint or dir",
+			name:               "find fs.gp using no entrypoint or dir",
 			entrypoint:         "",
 			dir:                "",
-			possibleFilenames:  []string{"fs.go"},
-			expectedEntrypoint: filepath.Join(wd, "fs.go"),
+			possibleFilenames:  []string{"fs.gp"},
+			expectedEntrypoint: filepath.Join(wd, "fs.gp"),
 		},
 		{
 			name:               "find ../../Taskfile.yml using no entrypoint or dir by walking",
