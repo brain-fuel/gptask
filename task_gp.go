@@ -12,6 +12,7 @@ import (
 	"strings"
 	"sync/atomic"
 
+	stdworkflow "goforge.dev/goplus/std/workflow"
 	"golang.org/x/sync/errgroup"
 	"mvdan.cc/sh/v3/interp"
 
@@ -247,7 +248,8 @@ func (e *Executor) RunTask(ctx context.Context, call *Call) error {
 					}
 					e.Logger.Errf(logger.Magenta, "task: Task %q is up to date\n", name)
 				}
-				return nil
+				// Skipped (up-to-date) lifecycle outcome via std/workflow.
+				return stdworkflow.OutcomeError(classifyRunOutcome(preCondMet, upToDate, nil))
 			}
 		}
 
@@ -293,7 +295,8 @@ func (e *Executor) RunTask(ctx context.Context, call *Call) error {
 			}
 		}
 		e.Logger.VerboseErrf(logger.Magenta, "task: %q finished\n", call.Task)
-		return nil
+		// Completed lifecycle outcome via std/workflow.
+		return stdworkflow.OutcomeError(stdworkflow.Completed{})
 	}); err != nil {
 		return &errors.TaskRunError{TaskName: t.Name(), Err: err}
 	}

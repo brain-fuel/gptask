@@ -33,6 +33,7 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/zeebo/xxh3 v1.1.0
 	go.yaml.in/yaml/v3 v3.0.4
+	goforge.dev/goplus/std v0.205.0
 	golang.org/x/sync v0.22.0
 	golang.org/x/term v0.45.0
 	mvdan.cc/sh/moreinterp v0.0.0-20260120230322-19def062a997

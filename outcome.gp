@@ -1,0 +1,28 @@
+// go-task as a std/workflow consumer.
+//
+// A task run has a terminal lifecycle that go-task historically collapses into a
+// bare `error` (nil for both "ran" and "skipped"). std/workflow.Outcome makes
+// that lifecycle explicit — Skipped (a precondition made the run unnecessary:
+// gated off, or up-to-date), Completed, or Failed — the same "done | failed |
+// skipped" typestate the workflow saga runner lacks. go-task classifies its run
+// decision through it here, on the hot path, and projects back to Go's error
+// convention with OutcomeError, so behavior is unchanged.
+package task
+
+import stdworkflow "goforge.dev/goplus/std/workflow"
+
+// classifyRunOutcome maps a task-run decision to a std/workflow.Outcome: an
+// error is Failed; an unmet precondition or an up-to-date task is Skipped (with
+// the reason); otherwise the task ran to Completion.
+func classifyRunOutcome(preCondMet, upToDate bool, runErr error) stdworkflow.Outcome {
+	if runErr != nil {
+		return stdworkflow.Failed{Err: runErr}
+	}
+	if !preCondMet {
+		return stdworkflow.Skipped{Reason: "precondition not met"}
+	}
+	if upToDate {
+		return stdworkflow.Skipped{Reason: "up to date"}
+	}
+	return stdworkflow.Completed{}
+}
