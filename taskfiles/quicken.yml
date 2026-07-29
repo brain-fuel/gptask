@@ -1,0 +1,29 @@
+version: '3'
+
+vars:
+  QUICKEN_CONFIG: '{{default "quicken.yaml" .QUICKEN_CONFIG}}'
+  QUICKEN_BUILD_VERSION: '{{default "v0.1.0" .QUICKEN_BUILD_VERSION}}'
+  QUICKEN_BUILD: >-
+    go run goforge.dev/quicken/build/cmd/quicken-build@{{.QUICKEN_BUILD_VERSION}}
+    -config {{.QUICKEN_CONFIG}}
+
+tasks:
+  doctor:
+    desc: Check every configured Quicken target
+    cmds:
+      - '{{.QUICKEN_BUILD}} doctor all'
+
+  doctor:*:
+    desc: Check one Quicken target
+    cmds:
+      - '{{.QUICKEN_BUILD}} doctor {{index .MATCH 0}}'
+
+  build:*:
+    desc: Build one Quicken target
+    cmds:
+      - '{{.QUICKEN_BUILD}} build {{index .MATCH 0}}'
+
+  run:*:
+    desc: Run one Quicken target
+    cmds:
+      - '{{.QUICKEN_BUILD}} run {{index .MATCH 0}}'

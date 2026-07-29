@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"maps"
 	"strings"
+	"sync"
 
 	"github.com/go-task/template"
 
@@ -24,17 +25,24 @@ type Cache struct {
 
 	cacheMap map[string]any
 	err      error
+	mutex    sync.Mutex
 }
 
 func (r *Cache) ResetCache() {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
 	r.cacheMap = r.Vars.ToCacheMap()
 }
 
 func (r *Cache) Err() error {
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
 	return r.err
 }
 
 func ResolveRef(ref string, cache *Cache) any {
+	cache.mutex.Lock()
+	defer cache.mutex.Unlock()
 	// If there is already an error, do nothing
 	if cache.err != nil {
 		return nil
@@ -66,6 +74,8 @@ func Replace[T any](v T, cache *Cache) T {
 }
 
 func ReplaceWithExtra[T any](v T, cache *Cache, extra map[string]any) T {
+	cache.mutex.Lock()
+	defer cache.mutex.Unlock()
 	// If there is already an error, do nothing
 	if cache.err != nil {
 		return v
@@ -115,7 +125,7 @@ func ReplaceWithExtra[T any](v T, cache *Cache, extra map[string]any) T {
 }
 
 func ReplaceGlobs(globs []*ast.Glob, cache *Cache) []*ast.Glob {
-	if cache.err != nil || len(globs) == 0 {
+	if cache.Err() != nil || len(globs) == 0 {
 		return nil
 	}
 
@@ -152,7 +162,7 @@ func ReplaceVars(vars *ast.Vars, cache *Cache) *ast.Vars {
 }
 
 func ReplaceVarsWithExtra(vars *ast.Vars, cache *Cache, extra map[string]any) *ast.Vars {
-	if cache.err != nil || vars.Len() == 0 {
+	if cache.Err() != nil || vars.Len() == 0 {
 		return nil
 	}
 

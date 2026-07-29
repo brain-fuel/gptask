@@ -24,6 +24,7 @@ import (
 )
 
 func (e *Executor) Setup() error {
+	e.setupStdFiles()
 	e.setupLogger()
 	node, err := e.getRootNode()
 	if err != nil {
@@ -35,7 +36,6 @@ func (e *Executor) Setup() error {
 	if err := e.readTaskfile(node); err != nil {
 		return err
 	}
-	e.setupStdFiles()
 	if err := e.setupOutput(); err != nil {
 		return err
 	}
@@ -180,6 +180,7 @@ func (e *Executor) setupStdFiles() {
 	if e.Stderr == nil {
 		e.Stderr = os.Stderr
 	}
+	e.Stdout, e.Stderr = logger.SynchronizeWriters(e.Stdout, e.Stderr)
 }
 
 func (e *Executor) setupLogger() {
