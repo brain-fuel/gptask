@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1.1
+
+- Exclude generated remote-include cache files from module archives so clean
+  `go install` works on every platform.
+
 ## v1.1.0
 
 - Add reusable Quicken doctor, build, and run task definitions for Web, TUI,
