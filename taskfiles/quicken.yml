@@ -2,7 +2,7 @@ version: '3'
 
 vars:
   QUICKEN_CONFIG: '{{default "quicken.yaml" .QUICKEN_CONFIG}}'
-  QUICKEN_BUILD_VERSION: '{{default "v0.1.0" .QUICKEN_BUILD_VERSION}}'
+  QUICKEN_BUILD_VERSION: '{{default "v0.2.0" .QUICKEN_BUILD_VERSION}}'
   QUICKEN_BUILD: >-
     go run goforge.dev/quicken/build/cmd/quicken-build@{{.QUICKEN_BUILD_VERSION}}
     -config {{.QUICKEN_CONFIG}}

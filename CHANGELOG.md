@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.0
+
+- Use Quicken Build v0.2.0 by default, including iOS device and explicit
+  desktop cross-toolchain targets.
+
 ## v1.1.1
 
 - Exclude generated remote-include cache files from module archives so clean

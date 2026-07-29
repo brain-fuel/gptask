@@ -30,3 +30,8 @@ jobs:
               --verify-tag \
               --title "GoForge Task v1.1.1" \
               --generate-notes
+          gh release view v1.2.0 >/dev/null 2>&1 ||
+            gh release create v1.2.0 \
+              --verify-tag \
+              --title "GoForge Task v1.2.0" \
+              --generate-notes
