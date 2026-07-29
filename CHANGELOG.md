@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.0
+
+- Use Quicken Build v0.3.0 by default.
+- Add `init:*` for generating a complete cross-platform Quicken starter.
+
 ## v1.2.0
 
 - Use Quicken Build v0.2.0 by default, including iOS device and explicit

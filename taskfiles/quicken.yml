@@ -2,12 +2,19 @@ version: '3'
 
 vars:
   QUICKEN_CONFIG: '{{default "quicken.yaml" .QUICKEN_CONFIG}}'
-  QUICKEN_BUILD_VERSION: '{{default "v0.2.0" .QUICKEN_BUILD_VERSION}}'
+  QUICKEN_BUILD_VERSION: '{{default "v0.3.0" .QUICKEN_BUILD_VERSION}}'
   QUICKEN_BUILD: >-
     go run goforge.dev/quicken/build/cmd/quicken-build@{{.QUICKEN_BUILD_VERSION}}
     -config {{.QUICKEN_CONFIG}}
 
 tasks:
+  init:*:
+    desc: Generate a Quicken starter at the matched destination
+    cmds:
+      - >-
+        go run goforge.dev/quicken/build/cmd/quicken-build@{{.QUICKEN_BUILD_VERSION}}
+        {{.CLI_ARGS}} init {{index .MATCH 0}}
+
   doctor:
     desc: Check every configured Quicken target
     cmds:
