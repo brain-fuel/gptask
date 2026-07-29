@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.4.0
+
+- Use Quicken Build v0.4.0 by default for the complete server, TUI, and
+  configured native-desktop architecture matrix.
+
 ## v1.3.0
 
 - Use Quicken Build v0.3.0 by default.
